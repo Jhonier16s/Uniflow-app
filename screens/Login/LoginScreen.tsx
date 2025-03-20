@@ -118,13 +118,13 @@ export default function LoginScreen({ navigation }: any) {
           </Button>
         </YStack>
 
-        <Button
+        {/* <Button
           backgroundColor={themeStyles.primary}
           color={themeStyles.text}
           onPress={toggleTheme}
         >
           Toggle Theme
-        </Button>
+        </Button> */}
       </YStack>
     </View>
   );
