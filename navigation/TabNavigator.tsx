@@ -2,9 +2,9 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "../screens/Home/HomeScreen";
-import EventsScreen from "../screens/Events/EventsScreen";
 import { useThemeStore } from "../store/useThemeStore";
 import { View } from "tamagui";
+import EventsStack from "./EventsStack";
 
 type RootTabParamList = {
   Home: undefined;
@@ -68,7 +68,7 @@ export default function TabNavigator() {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Events" component={EventsScreen} />
+      <Tab.Screen name="Events" component={EventsStack} />
     </Tab.Navigator>
   );
 }
