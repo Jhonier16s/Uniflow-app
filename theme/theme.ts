@@ -5,8 +5,8 @@ export const themes = {
       text: "#202124",         // Texto principal
       textInverted: "#FFFFFF", // Texto invertido
       textSecondary: "#5F6368", // Texto secundario
-      primary: "#E63946",      // Rojo vibrante (destacados, botones)
-      secondary: "#457B9D",    // Azul (secundario, botones)
+      primary: "#0B3759",      // Azul oscuro (principal, títulos)
+      secondary: "#457B9D",    // Azul (secundario, botones) #AB0800 Rojo cesmag
       accent: "#F4A261",       // Naranja cálido (acentos, etiquetas)
       success: "#2A9D8F",      // Verde (confirmaciones, éxito)
       warning: "#E9C46A",      // Amarillo (advertencias)

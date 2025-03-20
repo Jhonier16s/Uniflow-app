@@ -7,8 +7,12 @@ import LoadDocument from "../../components/LoadDocument";
 import useICSParser from "../../hooks/useICSParser";
 import EventsContainer from "../../components/EventsContainer";
 import { AgendaItem } from "../../types";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
+import { useThemeStore } from "../../store/useThemeStore";
 
 export default function HomeScreen() {
+  const { themeStyles, theme } = useThemeStore();
   const { events, parseICS } = useICSParser();
   const [fileContent, setFileContent] = useState<string>("");
   const [items, setItems] = useState<Record<string, AgendaItem[]>>({});
@@ -34,9 +38,11 @@ export default function HomeScreen() {
   }, [events]);
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
-      <LoadDocument setFileContent={setFileContent} />
-      <EventsContainer items={items} />
-    </View>
+    <>
+      <StatusBar style={theme === "light" ? "dark" : "light"} />
+      <SafeAreaView style={{ flex: 1, padding: 20 }}>
+        <Text>Home Screen</Text>
+      </SafeAreaView>
+    </>
   );
 }

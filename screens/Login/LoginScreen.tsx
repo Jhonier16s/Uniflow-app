@@ -37,7 +37,7 @@ export default function LoginScreen({ navigation }: any) {
       <StatusBar style={theme === "light" ? "dark" : "light"} />
 
       <H4 color={themeStyles.primary} marginBottom="$2" textAlign="center">
-        VibraPasto
+        Uniflow
       </H4>
 
       <YStack gap="$4" alignItems="center" minWidth={300} padding="$6">
@@ -60,7 +60,7 @@ export default function LoginScreen({ navigation }: any) {
         />
         {errors.email && <Text color="red">{errors.email.message}</Text>}
 
-        <CustomInput
+{/*         <CustomInput
           size="$5"
           width={"100%"}
           borderWidth={2}
@@ -69,7 +69,7 @@ export default function LoginScreen({ navigation }: any) {
           color={themeStyles.text}
           placeholder="Escribe algo..."
           error={errors.email ? errors.email.message : undefined}
-        />
+        /> */}
 
         <Input
           size="$5"

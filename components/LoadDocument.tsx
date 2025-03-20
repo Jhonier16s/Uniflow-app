@@ -33,7 +33,7 @@ const LoadDocument: React.FC<LoadDocumentProps> = ({ setFileContent }) => {
     <Button
       width={"100%"}
       fontSize="$5"
-      backgroundColor={themeStyles.secondary}
+      backgroundColor={themeStyles.primary}
       color={themeStyles.textInverted}
       onPress={pickDocument}
     >
