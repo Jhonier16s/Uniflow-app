@@ -1,6 +1,8 @@
-import { Adapt, Button, Dialog, Sheet, View, XStack } from "tamagui";
-import { useEffect, useState } from "react";
+import { Dialog, View, Button, XStack } from "tamagui";
+import { useState } from "react";
 import { useThemeStore } from "../store/useThemeStore";
+import { MaterialIcons } from "@expo/vector-icons";
+import { ModeCard } from "./ModeCard";
 
 interface SwitchModeDialogProps {
   setSelectedMode: (mode: string) => void;
@@ -21,7 +23,6 @@ export function SwitchModeDialog({
   const [open, setOpen] = useState<boolean>(false);
   const [localMode, setLocalMode] = useState<string>(currentMode);
 
-
   return (
     <Dialog modal open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
@@ -34,27 +35,14 @@ export function SwitchModeDialog({
         </Button>
       </Dialog.Trigger>
 
-      <Adapt when="sm" platform="touch">
-        <Sheet animation="medium" zIndex={200000} modal dismissOnSnapToBottom>
-          <Sheet.Frame padding="$4" gap="$4">
-            <Adapt.Contents />
-          </Sheet.Frame>
-          <Sheet.Overlay
-            backgroundColor="$shadow6"
-            animation="lazy"
-            enterStyle={{ opacity: 0 }}
-            exitStyle={{ opacity: 0 }}
-          />
-        </Sheet>
-      </Adapt>
-
       <Dialog.Portal>
         <Dialog.Overlay
           key="overlay"
-          backgroundColor="$shadow6"
+          backgroundColor="rgba(0, 0, 0, 0.5)"
           animation="slow"
           enterStyle={{ opacity: 0 }}
           exitStyle={{ opacity: 0 }}
+          onPress={() => setOpen(false)}
         />
 
         <Dialog.Content
@@ -63,50 +51,10 @@ export function SwitchModeDialog({
           key="content"
           animateOnly={["transform", "opacity"]}
           animation={["quicker", { opacity: { overshootClamping: true } }]}
-          enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
-          exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
+          enterStyle={{ opacity: 0, scale: 0.9 }}
+          exitStyle={{ opacity: 0, scale: 0.95 }}
           gap="$4"
         >
-          <Dialog.Title>Seleccionar Modo</Dialog.Title>
-          <Dialog.Description>
-            Elige el modo de visualización del calendario.
-          </Dialog.Description>
-
-          <View gap="$3">
-            {modes.map((mode) => (
-              <Button
-                key={mode.key}
-                onPress={() => {
-                  setSelectedMode(mode.key);
-                  setLocalMode(mode.key);
-                  //setOpen(false);
-                }}
-                backgroundColor={
-                  localMode === mode.key ? themeStyles.primary : "transparent"
-                }
-                color={
-                  localMode === mode.key
-                    ? themeStyles.textInverted
-                    : themeStyles.text
-                }
-              >
-                {mode.label}
-              </Button>
-            ))}
-          </View>
-
-          <XStack gap="$3" justifyContent="flex-end">
-            <Button
-              onPress={() => {
-                setOpen(false);
-              }}
-              backgroundColor={themeStyles.primary}
-              color={themeStyles.textInverted}
-            >
-              Guardar
-            </Button>
-          </XStack>
-
           <Dialog.Close asChild>
             <Button
               position="absolute"
@@ -114,8 +62,43 @@ export function SwitchModeDialog({
               right="$3"
               size="$2"
               circular
+              backgroundColor="transparent"
+              icon={
+                <MaterialIcons
+                  name="close"
+                  size={24}
+                  color={themeStyles.text}
+                />
+              }
             />
           </Dialog.Close>
+
+          <Dialog.Title
+            color={themeStyles.primary}
+            fontSize="$8"
+            fontWeight="600"
+            textAlign="center"
+          >
+            Seleccionar Modo
+          </Dialog.Title>
+          <Dialog.Description>
+            Elige el modo de visualización del calendario.
+          </Dialog.Description>
+
+          <XStack justifyContent="center" gap="$3" maxWidth="365">
+            {modes.map((mode) => (
+              <ModeCard
+                key={mode.key}
+                mode={mode}
+                selected={localMode === mode.key}
+                onSelect={() => {
+                  setSelectedMode(mode.key);
+                  setLocalMode(mode.key);
+                  setOpen(false);
+                }}
+              />
+            ))}
+          </XStack>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog>
