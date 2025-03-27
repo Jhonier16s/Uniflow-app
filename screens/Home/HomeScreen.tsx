@@ -1,48 +1,118 @@
-import React, { useState, useEffect } from "react";
-import { View, ScrollView } from "react-native";
-import { Text } from "tamagui";
-import { Agenda } from "react-native-calendars";
-
-import LoadDocument from "../../components/LoadDocument";
-import useICSParser from "../../hooks/useICSParser";
-import EventsContainer from "../../components/EventsContainer";
-import { AgendaItem } from "../../types";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { ScrollView } from "react-native";
+import { Card, Paragraph, XStack, YStack, Progress, Text } from "tamagui";
+import { Ionicons } from "@expo/vector-icons";
 import { useThemeStore } from "../../store/useThemeStore";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function HomeScreen() {
+const HomeScreen = () => {
   const { themeStyles, theme } = useThemeStore();
-  const { events, parseICS } = useICSParser();
-  const [fileContent, setFileContent] = useState<string>("");
-  const [items, setItems] = useState<Record<string, AgendaItem[]>>({});
 
-  useEffect(() => {
-    if (fileContent) {
-      parseICS(fileContent);
-    }
-  }, [fileContent]);
-
-  useEffect(() => {
-    const newItems: Record<string, any> = {};
-    events.forEach((event) => {
-      const date = event.start.split("T")[0];
-      if (!newItems[date]) newItems[date] = [];
-      newItems[date].push({
-        name: event.summary,
-        start: event.start.split("T")[1],
-        end: event.end.split("T")[1],
-      });
-    });
-    setItems(newItems);
-  }, [events]);
+  const weeklyStats = {
+    completed: 5,
+    inProgress: 3,
+    pending: 2,
+    total: 10,
+    subjects: 4,
+    totalHours: 15,
+  };
 
   return (
     <>
       <StatusBar style={theme === "light" ? "dark" : "light"} />
       <SafeAreaView style={{ flex: 1, padding: 20 }}>
-        <Text>Home Screen</Text>
+        <YStack gap="$5">
+          {/* Resumen de la semana */}
+          <Card
+            bordered
+            padding="$4"
+            backgroundColor="#F9FAFB"
+            borderRadius={12}
+          >
+            <YStack>
+              <Text fontSize="$6" fontWeight="700" color={themeStyles.primary}>
+                Resumen de la semana
+              </Text>
+              <XStack alignItems="center" gap={10} marginTop={10}>
+                <Ionicons name="checkmark-circle" size={22} color="green" />
+                <Text fontSize="$4">Completados: {weeklyStats.completed}</Text>
+              </XStack>
+              <XStack alignItems="center" gap={10} marginTop={5}>
+                <Ionicons name="time" size={22} color="orange" />
+                <Text fontSize="$4">En progreso: {weeklyStats.inProgress}</Text>
+              </XStack>
+              <XStack alignItems="center" gap={10} marginTop={5}>
+                <Ionicons name="alert-circle" size={22} color="red" />
+                <Text fontSize="$4">Pendientes: {weeklyStats.pending}</Text>
+              </XStack>
+            </YStack>
+          </Card>
+
+          {/* Barra de progreso */}
+          <Card
+            bordered
+            padding="$4"
+            backgroundColor="#F9FAFB"
+            borderRadius={12}
+            gap={16}
+          >
+            <Text fontSize="$6" fontWeight="700" color={themeStyles.primary}>
+              Progreso de la semana
+            </Text>
+            <Progress value={(weeklyStats.completed / weeklyStats.total) * 100}>
+              <Progress.Indicator
+                animation="bouncy"
+                backgroundColor={themeStyles.primary}
+              />
+            </Progress>
+
+            <Text fontSize="$4" alignSelf="center">
+              {weeklyStats.completed} de {weeklyStats.total} eventos completados
+            </Text>
+          </Card>
+
+          {/* Estadísticas rápidas */}
+          <Card
+            bordered
+            padding="$4"
+            backgroundColor="#F9FAFB"
+            borderRadius={12}
+          >
+            <Text fontSize="$6" fontWeight="700" color={themeStyles.primary}>
+              Estadísticas rápidas
+            </Text>
+            <XStack justifyContent="space-between" marginTop={10}>
+              <YStack alignItems="center">
+                <Ionicons
+                  name="book-outline"
+                  size={22}
+                  color={themeStyles.primary}
+                />
+                <Text fontSize="$4">Materias: {weeklyStats.subjects}</Text>
+              </YStack>
+              <YStack alignItems="center">
+                <Ionicons
+                  name="calendar-outline"
+                  size={22}
+                  color={themeStyles.primary}
+                />
+                <Text fontSize="$4">Eventos: {weeklyStats.total}</Text>
+              </YStack>
+              <YStack alignItems="center">
+                <Ionicons
+                  name="time-outline"
+                  size={22}
+                  color={themeStyles.primary}
+                />
+                <Text fontSize="$4">Horas: {weeklyStats.totalHours}</Text>
+              </YStack>
+            </XStack>
+          </Card>
+        </YStack>
       </SafeAreaView>
     </>
   );
-}
+};
+
+export default HomeScreen;
