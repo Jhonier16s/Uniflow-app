@@ -4,7 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "../screens/Home/HomeScreen";
 import { useThemeStore } from "../store/useThemeStore";
 import { View } from "tamagui";
-import EventsStack from "./EventsStack";
+import SettingsScreen from "../screens/Settings/SettingsScreen";
+import EventsScreen from "../screens/Events/EventsScreen";
 
 type RootTabParamList = {
   Home: undefined;
@@ -68,7 +69,8 @@ export default function TabNavigator() {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Events" component={EventsStack} />
+      <Tab.Screen name="Events" component={EventsScreen} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
 }
