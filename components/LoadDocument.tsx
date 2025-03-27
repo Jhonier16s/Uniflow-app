@@ -4,12 +4,11 @@ import * as FileSystem from "expo-file-system";
 
 import { Button, Text } from "tamagui";
 import { useThemeStore } from "../store/useThemeStore";
+import { useEventsStore } from "../store/useEventsStore";
 
-interface LoadDocumentProps {
-  setFileContent: (content: string) => void;
-}
+export const LoadDocument = () => {
+  const { setFileContent } = useEventsStore();
 
-const LoadDocument: React.FC<LoadDocumentProps> = ({ setFileContent }) => {
   const [fileName, setFileName] = useState<string>("");
   const { themeStyles } = useThemeStore();
   const pickDocument = async () => {
@@ -24,7 +23,7 @@ const LoadDocument: React.FC<LoadDocumentProps> = ({ setFileContent }) => {
 
       const fileContent = await FileSystem.readAsStringAsync(fileUri);
 
-      setFileContent(fileContent);
+      setFileContent(fileContent); 
     } catch (error) {
       console.error("Error picking or reading document:", error);
     }
@@ -37,9 +36,7 @@ const LoadDocument: React.FC<LoadDocumentProps> = ({ setFileContent }) => {
       color={themeStyles.textInverted}
       onPress={pickDocument}
     >
-      Subir Archivo .ICS
+      {fileName ? fileName : "Cargar archivo"}
     </Button>
   );
 };
-
-export default LoadDocument;
