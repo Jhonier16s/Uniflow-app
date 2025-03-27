@@ -1,9 +1,9 @@
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PortalProvider, TamaguiProvider } from 'tamagui';
-import tamaguiConfig from './tamagui.config';
-import StackNavigator from './navigation/StackNavigator';
+import tamaguiConfig from '../tamagui.config';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import StackNavigator from './navigation/StackNavigator';
 
 export default function App() {
   return (
